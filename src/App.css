@@ -1,16 +1,1 @@
-.app-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  gap: 2rem;
-  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-}
-
-.app-container h1 {
-  color: #fff;
-  font-size: 2.5rem;
-  margin: 0;
-  font-weight: 700;
-}
+/* App styles are handled via Tailwind classes in JSX */
