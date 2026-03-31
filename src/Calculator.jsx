@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './Calculator.css'
 
 const Calculator = () => {
   const [currentValue, setCurrentValue] = useState('0')
@@ -73,38 +72,66 @@ const Calculator = () => {
   }
 
   const buttons = [
-    { label: 'AC', onClick: handleClear, className: 'clear' },
-    { label: '÷', onClick: () => handleOperation('÷'), className: 'operator' },
-    { label: '×', onClick: () => handleOperation('×'), className: 'operator' },
-    { label: '−', onClick: () => handleOperation('−'), className: 'operator' },
-    { label: '7', onClick: () => handleNumber(7), className: 'number' },
-    { label: '8', onClick: () => handleNumber(8), className: 'number' },
-    { label: '9', onClick: () => handleNumber(9), className: 'number' },
-    { label: '+', onClick: () => handleOperation('+'), className: 'operator' },
-    { label: '4', onClick: () => handleNumber(4), className: 'number' },
-    { label: '5', onClick: () => handleNumber(5), className: 'number' },
-    { label: '6', onClick: () => handleNumber(6), className: 'number' },
-    { label: '.', onClick: handleDecimal, className: 'number' },
-    { label: '1', onClick: () => handleNumber(1), className: 'number' },
-    { label: '2', onClick: () => handleNumber(2), className: 'number' },
-    { label: '3', onClick: () => handleNumber(3), className: 'number' },
-    { label: '=', onClick: handleEquals, className: 'equals' },
-    { label: '0', onClick: () => handleNumber(0), className: 'number zero' },
+    { label: 'AC', onClick: handleClear, variant: 'clear' },
+    { label: '÷', onClick: () => handleOperation('÷'), variant: 'operator' },
+    { label: '×', onClick: () => handleOperation('×'), variant: 'operator' },
+    { label: '−', onClick: () => handleOperation('−'), variant: 'operator' },
+    { label: '7', onClick: () => handleNumber(7), variant: 'number' },
+    { label: '8', onClick: () => handleNumber(8), variant: 'number' },
+    { label: '9', onClick: () => handleNumber(9), variant: 'number' },
+    { label: '+', onClick: () => handleOperation('+'), variant: 'operator' },
+    { label: '4', onClick: () => handleNumber(4), variant: 'number' },
+    { label: '5', onClick: () => handleNumber(5), variant: 'number' },
+    { label: '6', onClick: () => handleNumber(6), variant: 'number' },
+    { label: '.', onClick: handleDecimal, variant: 'number' },
+    { label: '1', onClick: () => handleNumber(1), variant: 'number' },
+    { label: '2', onClick: () => handleNumber(2), variant: 'number' },
+    { label: '3', onClick: () => handleNumber(3), variant: 'number' },
+    { label: '=', onClick: handleEquals, variant: 'equals' },
+    { label: '0', onClick: () => handleNumber(0), variant: 'number', span: 2 },
   ]
 
+  const getButtonClasses = (variant) => {
+    const baseClasses = 'font-semibold text-lg sm:text-xl rounded-lg transition-all duration-200 active:scale-95 hover:shadow-lg'
+
+    switch (variant) {
+      case 'operator':
+        return `${baseClasses} bg-teal hover:bg-teal/90 text-white shadow-md`
+      case 'clear':
+        return `${baseClasses} bg-red-500 hover:bg-red-600 text-white shadow-md`
+      case 'equals':
+        return `${baseClasses} bg-green-500 hover:bg-green-600 text-white shadow-md`
+      case 'number':
+      default:
+        return `${baseClasses} bg-white/10 hover:bg-white/20 text-white backdrop-blur-sm border border-white/20`
+    }
+  }
+
   return (
-    <div className="calculator">
-      <div className="display">{currentValue}</div>
-      <div className="buttons-grid">
-        {buttons.map((btn, idx) => (
-          <button
-            key={idx}
-            onClick={btn.onClick}
-            className={`btn ${btn.className}`}
-          >
-            {btn.label}
-          </button>
-        ))}
+    <div className="w-full max-w-sm">
+      <div className="rounded-3xl shadow-2xl p-6 sm:p-8 backdrop-blur-xl border border-white/20 bg-white/5">
+        {/* Display */}
+        <div className="bg-navy/50 backdrop-blur-sm border border-teal/30 rounded-xl p-4 sm:p-6 mb-6 text-right">
+          <div className="text-teal text-3xl sm:text-5xl font-bold overflow-hidden overflow-ellipsis whitespace-nowrap">
+            {currentValue}
+          </div>
+        </div>
+
+        {/* Buttons Grid */}
+        <div className="grid grid-cols-4 gap-3 sm:gap-4">
+          {buttons.map((btn, idx) => (
+            <button
+              key={idx}
+              onClick={btn.onClick}
+              className={`${getButtonClasses(btn.variant)} ${
+                btn.span ? `col-span-${btn.span}` : ''
+              } p-4 sm:p-5`}
+              style={btn.span ? { gridColumn: `span ${btn.span}` } : {}}
+            >
+              {btn.label}
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
